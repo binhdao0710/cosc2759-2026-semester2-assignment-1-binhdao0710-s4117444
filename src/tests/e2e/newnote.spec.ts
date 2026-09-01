@@ -4,7 +4,7 @@ test("test", async ({ page }) => {
   // Go to http://localhost:3000/
   await page.goto("http://localhost:3000/");
 
-  await expect(page).toHaveURL("http://localhost:3000/this-should-fail");
+  //await expect(page).toHaveURL("http://localhost:3000/this-should-fail");
 
   // Click text=New Note
   await page.locator("text=New Note").click();

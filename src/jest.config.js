@@ -27,19 +27,20 @@ module.exports = {
   coverageDirectory: "coverage/",
 
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: [
-    "/node_modules/"
-  ],
+  coveragePathIgnorePatterns: ["/node_modules/"],
 
   // A list of reporter names that Jest uses when writing coverage reports
-  coverageReporters: [
-    "json",
-    "text",
-    "lcov"
-  ],
+  coverageReporters: ["json", "text", "lcov"],
 
   // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: undefined,
+  coverageThreshold: {
+    global: {
+      branches: 5,
+      functions: 5,
+      lines: 5,
+      statements: 5,
+    },
+  },
 
   // A path to a custom dependency extractor
   // dependencyExtractor: undefined,
@@ -185,4 +186,3 @@ module.exports = {
   // Whether to use watchman for file crawling
   // watchman: true,
 };
-

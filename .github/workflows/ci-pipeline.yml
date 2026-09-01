@@ -2,3 +2,68 @@ name: Notes Application CI Pipeline
 # create a CI pipeline based on the assignment specification
 # remember to commit often
 
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Install Deps
+        run: npm install
+      - name: Run Lint
+        run: npm run test:lint
+
+  unit-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Install Deps
+        run: npm install
+      - name: Run Unit Tests
+        run: npm run test:unit
+
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    needs: [lint, unit-test]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Install Deps
+        run: npm install
+      - name: Package Application
+        run: |
+          mkdir deploy-artifact
+          cp -r app.js routes models views package.json package-lock.json deploy-artifact/
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: app-package
+          path: src/deploy-artifact/

@@ -9,6 +9,45 @@ on:
       - main
 
 jobs:
+  jobs:
+  e2e:
+    runs-on: ubuntu-22.04
+    needs: [lint, unit-test]
+    defaults:
+      run:
+        working-directory: src
+    services:
+      mongodb:
+        image: mongo:6
+        ports:
+          - 27017:27017
+    env:
+      SERVER: mongodb://localhost:27017
+      PORT: 3000
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Install Deps
+        run: npm install
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Start Application
+        run: npm run start &
+      - name: Wait for app to be ready
+        run: npx wait-on http://localhost:3000
+      - name: Run end-to-end tests with log report
+        run: npm run test:e2e --reporter=list
+      - name: Upload Playwright Report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: src/playwright-report/
+          retention-days: 7
+
   lint:
     runs-on: ubuntu-latest
     defaults:

@@ -4,8 +4,6 @@ name: Notes Application CI Pipeline
 
 on:
   push:
-    branches:
-      - "*"
   pull_request:
     branches:
       - main

@@ -2,3 +2,27 @@ name: Notes Application CI Pipeline
 # create a CI pipeline based on the assignment specification
 # remember to commit often
 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Install Deps
+        run: npm install
+      - name: Run Lint
+        run: npm run test:lint

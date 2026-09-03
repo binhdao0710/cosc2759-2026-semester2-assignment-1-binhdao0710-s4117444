@@ -10,7 +10,7 @@ on:
 
 jobs:
   e2e:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs: [lint, unit-test]
     defaults:
       run:
@@ -40,7 +40,7 @@ jobs:
       - name: Run end-to-end tests with log report
         run: npm run test:e2e --reporter=list
       - name: Upload Playwright Report
-        if: always()
+        if: always() && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v7
         with:
           name: playwright-report

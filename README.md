@@ -5,33 +5,13 @@
 - Full Name/Names: Dao Duc Binh
 - Student ID/IDs: s4117444
 
-### Guidance (remove this section before final submission)
-
-1. Refer for assignment specification `Marking Guide` for details of what should appear in this README.
-
-2. If you do not see an `Actions` tab in your GitHub, email craig.anslow@rmit.edu.au with URL to your repository, so that it can be enabled.
-
-3. Implement your CI pipeline in the directory `.github/workflows`.
-
-4. Refer to [src/README.md](/src/README.md) for important details on building and testing the application.
-
-5. Commit images to the `img` directory and add them like
-
-   ```html
-   <img src="/img/md.png" style="height: 70px;" />
-   ```
-
-   <img src="/img/md.png" style="height: 70px;"/>
-
-6. Only edit THIS README.md - not the src/README.md
-
 ## 1. How the pipeline runs
 
 ### 1.1 What triggers the pipeline
 
 - The pipeline is defined at `.github/workflows/ci-pipeline.yml` and runs automatically in response to git events.
-- When a push event on any branch a pull request from main happens, the pipeline is triggered.
-- When triggered on any branch, 3 jobs would always run being e2e, lint, and unit-test. The build job only runs when there are push requests/code merge onto main.
+- The pipeline triggers on two events: a push to any branch, or a pull request targeting main.
+- When triggered on any branch, 3 jobs would always run being e2e, lint, and unit-test. The build job only runs when there are push requests/code merge onto main. This is a deliberate restriction, ensuring deployable artifacts are only ever generated from code that has been merged and reviewed, not from in-progress feature branches.
 
 ### 1.2 What each job does
 
@@ -51,7 +31,7 @@
 
 ### 2.2 Failing pipeline
 
-- When failed, a job would have a read x mark next to it and when clicked on would display the step that ran into an error.
+- When failed, a job would have a red x mark next to it and when clicked on would display the step that ran into an error.
 - The possible problems that each job can detect may be:
   - `lint` failures list the exact file, line, and rule that was violated.
   - `unit-test` failures show the failing assertion, expected vs. received values, and the test file/line.

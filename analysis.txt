@@ -5,16 +5,16 @@ ANALYSIS
 - Style issues and common mistakes such as unused variables may go unnoticed without manual review, 
 which can cause problems for collaboration efforts. 
 - There's no reliable way to check if core logic in the current implementation is erroneous until it 
-causes a real bug
-- Test suites can silently rot, as new code may be added without corresponding tests
+causes a real bug.
+- Test suites can silently rot, as new code may be added without corresponding tests.
 - No tests have been configured to check for integration bugs between the front end and the back end. 
-- If a developer wish to deploy the app, they would have to manually decide which files to include and 
-package. This can lead to inconsistencies and problem such as using the wrong version of a file, or 
-packaging code that is still under-development.
-- There is no structural gate in place to prevent broken, untested, or unfinished code to be directly 
-merged into main.
+- If a developer wishes to deploy the app, they would have to manually decide which files to include and 
+package. This can lead to inconsistencies and problems such as using the wrong version of a file, or 
+packaging code that is still under development.
+- There is no structural gate in place to prevent broken, untested, or unfinished code from being 
+directly merged into main.
 
-2. Solution explanation and justifcation 
+2. Solution explanation and justifications
 
 The solution is a GitHub Actions pipeline  made up of five phases, combined with a GitHub Flow branching 
 strategy that controls when each phase runs.
@@ -26,24 +26,25 @@ common mistakes, such as unused variables.
  
 2.2 Unit Testing
  
-The second job runs npm run test:unit on every branch. This verifies the application's model validation logic 
-in isolation, independent of the database or user interface.New tests can be conitnously intergrated for new 
-features to ensure the current version is bug-free. 
+The second job runs npm run test:unit on every branch. This verifies the application's model validation 
+logic in isolation, independent of the database or user interface. New tests can be continuously integrated 
+for new features to ensure the current version is bug-free. 
  
 2.3 Code Coverage
  
-The unit test command runs with the --coverage flag, and jest.config.js defines acoverageThreshold. This 
-allows coverage to be measured, tested against, and reported. Which directly address the issue of the codebase 
-being upadted without corresponding tests and check for it automaticlally.
+The unit test command runs with the --coverage flag, and jest.config.js defines a coverageThreshold. This 
+allows coverage to be measured, tested against, and reported, which directly addresses the issue of the 
+codebase being updated without corresponding tests, checking for it automatically.
  
 2.4 End-to-End Testing
  
 Once the two above jobs are successful, the pipeline runs npm run test:e2e on every branch. A MongoDB 
 service container and a live instance of the application are started. A real browser is driven through the 
-application workflow similar to how a real user would. Three browser engines are tested against: Firefox, 
+application's workflow similar to how a real user would. Three browser engines are tested against: Firefox, 
 Chromium, and WebKit. This exists because unit tests cannot catch integration problems between the routes, 
 views, and database. If a step fails, the console log reports which step failed, and a Playwright HTML report 
-is uploaded as an artifact for further inspection. The HTML report is created regardless if an error occurs 
+is uploaded as an artifact for further inspection. The HTML report is created regardless of whether an error 
+occurs.
  
 2.5 Artefact Generation
  
@@ -53,7 +54,7 @@ unit-test jobs passing first. This job allows developers to have consistent and 
  
 2.6 Branching Strategy
  
-To ensure that broken code is not merged to main, each feature is developed in a separate branch using the naming 
+To ensure that broken code is not merged into main, each feature is developed in a separate branch using the naming 
 scheme "feature/<feature-name>". The branches are short-lived, and are squashed, merged and deleted afterwards 
-using Git Flow. The intergration of this strategy completely eliminates of unfinished or erroneous code 
-corrupting the main branch. 
+using GitHub Flow. The integration of this strategy completely eliminates the chance of unfinished or erroneous 
+code corrupting the main branch. 

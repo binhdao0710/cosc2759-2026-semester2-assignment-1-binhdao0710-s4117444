@@ -10,7 +10,7 @@ causes a real bug.
 - No tests have been configured to check for integration bugs between the front end and the back end. 
 - If a developer wish to deploy the app, they would have to manually decide which files to include and 
 package. This can lead to inconsistencies and problems such as using the wrong version of a file, or 
-packaging code that is still under-development.
+packaging code that is still under development.
 - There is no structural gate in place to prevent broken, untested, or unfinished code to be directly 
 merged into main.
 
@@ -34,7 +34,7 @@ for new features to ensure the current version is bug-free.
  
 The unit test command runs with the --coverage flag, and jest.config.js defines a coverageThreshold. This 
 allows coverage to be measured, tested against, and reported, which directly addresses the issue of the 
-codebase being updated without corresponding tests and check for it automaticlally.
+codebase being updated without corresponding tests, checking for it automatically.
  
 2.4 End-to-End Testing
  

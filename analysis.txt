@@ -8,11 +8,11 @@ which can cause problems for collaboration efforts.
 causes a real bug.
 - Test suites can silently rot, as new code may be added without corresponding tests.
 - No tests have been configured to check for integration bugs between the front end and the back end. 
-- If a developer wish to deploy the app, they would have to manually decide which files to include and 
+- If a developer wishes to deploy the app, they would have to manually decide which files to include and 
 package. This can lead to inconsistencies and problems such as using the wrong version of a file, or 
 packaging code that is still under development.
-- There is no structural gate in place to prevent broken, untested, or unfinished code to be directly 
-merged into main.
+- There is no structural gate in place to prevent broken, untested, or unfinished code from being 
+directly merged into main.
 
 2. Solution explanation and justifications
 
